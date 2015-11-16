@@ -9,7 +9,7 @@
 
   For more information on collection tags:
     - http://docs.shopify.com/themes/liquid-variables/collection
-
+  ** This is a to-do for future state **
   For more information on the ?view parameter:
     - http://docs.shopify.com/support/configuration/store-customization/can-i-show-more-than-50-products-on-my-homepage-can-i-add-a-view-all-function-to-my-collection-pages#add-view-all
 
@@ -17,7 +17,9 @@
 
 {% paginate collection.products by 12 %}
 
+<!-- Begin Bradcrumbs -->
 {% include 'breadcrumb' %}
+<!-- End Breadcrumbs -->
 
 {% comment %}
   Use .grid--rev so that the collection tags appear below the products on mobile
@@ -29,6 +31,7 @@
       Different markup if a collection description exists
     {% endcomment %}
     {% if collection.description != blank %}
+      <!-- Begin Header - Title and Description -->
       <header class="section-header">
         <h1 class="section-header__title">{{ collection.title }}</h1>
         <div class="rte rte--header">
@@ -41,13 +44,16 @@
           {% include 'collection-sorting' %}
         </div>
       </div>
+      <!-- End Header - Title and Description -->
     {% else %}
+      <!-- Begin Header - Title -->
       <header class="section-header">
         <h1 class="section-header__title section-header__left">{{ collection.title }}</h1>
         <div class="section-header__right">
           {% include 'collection-sorting' %}
         </div>
       </header>
+      <!-- End Header - Title -->
     {% endif %}
 
     {% comment %}
@@ -56,7 +62,7 @@
     {% endcomment %}
     <div class="grid-uniform">
 
-      <!-- begin product list output -->
+      <!-- Begin Product List -->
       {% for product in collection.products %}
 
         {% comment %}
@@ -89,25 +95,32 @@
               - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
           {% endcomment %}
           <div class="grid large--display-table">
+            <!-- Begin Product Image -->
             <div class="grid__item large--one-fifth large--display-table-cell medium--one-third">
               <a href="{{ product.url | within: collection }}">
                 <img src="{{ product.featured_image.src | img_url: 'medium' }}" alt="{{ product.featured_image.alt | escape }}" class="grid__image">
               </a>
             </div>
+            <!-- End Product Image -->
             <div class="grid__item large--four-fifths large--display-table-cell medium--two-thirds">
               <div class="grid">
+                <!-- Begin Product Title and Content -->
                 <div class="grid__item large--three-quarters medium--two-thirds">
                   <p class="h6">{{ product.title }}</p>
                   <div class="rte">
                     <p>{{ product.content | strip_html | truncatewords: 30 }}</p>
                   </div>
                 </div>
+                <!-- End Product Title and Content -->
+                
+                <!-- Begin Item Sale/Stock Details -->
                 <div class="grid__item large--one-quarter medium--one-third">
                   {% comment %}
                     You can show a leading 'from' or 'up to' by checking 'product.price_varies'
                     if your variants have different prices.
                   {% endcomment %}
                   {% if on_sale %}
+                    <!-- Begin On Sale -->
                     {% if product.price_varies %}
                       {% assign sale_price = product.price | money %}
                       {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
@@ -115,49 +128,61 @@
                       <strong>{{ 'products.product.on_sale' | t }}</strong>
                       {{ product.price | money }}
                     {% endif %}
+                    <!-- End On Sale -->
                   {% else %}
                     {% if product.price_varies %}
+                      <!-- Begin Price Varies -->
                       {% assign price = product.price | money %}
                       {{ 'products.general.from_text_html' | t: price: price }}
+                      <!-- End Price Varies -->
                     {% else %}
+                      <!-- Begin Price -->
                       {{ product.price | money }}
+                      <!-- End Price -->
                     {% endif %}
                   {% endif %}
                   {% if sold_out %}
+                    <!-- Begin Sold Out -->
                     <br><strong>{{ 'products.product.sold_out' | t }}</strong>
+                    <!-- End Sold Out -->
                   {% endif %}
                   {% if on_sale %}
                     <br><span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span><s>{{ product.compare_at_price | money }}</s>
                   {% endif %}
                 </div>
+                <!-- End Item Sale/Stock Details -->
               </div>
             </div>
           </div>
         </div>
 
       {% else %}
-
+        <!-- Begin No Matches -->
         <div class="grid__item">
           <p>{{ 'collections.general.no_matches' | t }}</p>
         </div>
-
+        <!-- End No Matches -->
       {% endfor %}
-      <!-- //product list output -->
+      <!-- End Product List -->
 
     </div>
 
     {% if paginate.pages > 1 %}
       <hr>
+      <!-- Begin Pagination -->
       <div class="pagination">
         {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
       </div>
+      <!-- End Pagination -->
     {% endif %}
 
   </div>
-
+  
+  <!-- Begin Sidebar -->
   <div class="grid__item large--one-quarter">
     {% include 'collection-sidebar' %}
   </div>
+  <!-- End Sidebar -->
 </div>
 
 {% endpaginate %}
