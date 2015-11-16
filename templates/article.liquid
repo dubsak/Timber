@@ -20,12 +20,15 @@
   {% assign number_of_comments = article.comments_count | plus: 1 %}
 {% endif %}
 
+<!-- Begin Breadcrumbs -->
 {% include 'breadcrumb' %}
+<!-- End Breadcrumbs -->
 
+<!-- Begin Article -->
 <div class="grid">
 
   <article class="grid__item large--three-quarters" itemscope itemtype="http://schema.org/Article">
-
+    <!-- Begin Article Header -->
     <header class="section-header">
       <div class="section-header__left">
         <h1>{{ article.title }}</h1>
@@ -34,18 +37,24 @@
         <p>{{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}</p>
       </div>
     </header>
-
+    <!-- End Article Header -->
+    
+    <!-- Begin Article Body -->
     <div class="rte" itemprop="articleBody">
       {{ article.content }}
     </div>
+    <!-- End Article Body -->
 
+    <!-- Begin Meta -->
     {% comment %}
       Show off meta information like comments and tags.
     {% endcomment %}
     <ul class="inline-list">
       {% include 'tags-article' %}
     </ul>
-
+    <!-- End Meta -->
+    
+    <!-- Begin Previous/Next -->
     {% comment %}
       Create links to the next and previous articles, if available.
     {% endcomment %}
@@ -64,7 +73,9 @@
         {% endif %}
       </p>
     {% endif %}
-
+    <!-- End Previous/Next -->
+    
+    <!-- Begin Comments -->
     {% if blog.comments_enabled? %}
       <hr>
 
@@ -161,10 +172,13 @@
         </div>
       {% endpaginate %}
     {% endif %}
-
+    <!-- End Comments -->
   </article>
 
+  <!-- Begin Sidebar -->
   <aside class="grid__item large--one-quarter" role="complementary">
     {% include 'blog-sidebar' %}
   </aside>
+  <!-- End Sidebar -->
 </div>
+<!-- End Article -->
