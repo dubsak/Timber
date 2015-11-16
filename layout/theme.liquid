@@ -50,7 +50,7 @@
   Add the page template as a class for easy page or template specific styling.
 {% endcomment %}
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
-
+  <!-- Begin NavDrawer -->
   <div id="NavDrawer" class="drawer drawer--left">
     <div class="drawer__header">
       <div class="drawer__title h3">{{ 'layout.drawers.browse' | t }}</div>
@@ -61,11 +61,16 @@
         </button>
       </div>
     </div>
-    <!-- begin mobile-nav -->
+
+    <!-- Begin mobile-nav -->
     <ul class="mobile-nav">
+      <!-- Begin search-bar -->
       <li class="mobile-nav__item mobile-nav__search">
         {% include 'search-bar' %}
       </li>
+      <!-- End search-bar -->
+      
+      <!-- Begin Link List -->
       {% for link in linklists.main-menu.links %}
         {% comment %}
           Create a dropdown menu by naming a linklist the same as a link in the parent nav
@@ -103,7 +108,9 @@
           </li>
         {% endif %}
       {% endfor %}
-
+      <!-- End Link List -->
+      
+      <!-- Begin Customer Account Details -->
       {% comment %}
         If customer accounts are enabled, provide login and create account links
       {% endcomment %}
@@ -131,9 +138,13 @@
           {% endif %}
         {% endif %}
       {% endif %}
+      <!-- End Customer Account Details -->
     </ul>
-    <!-- //mobile-nav -->
+    <!-- End mobile-nav -->
   </div>
+  <!-- End NavDrawer -->
+  
+  <!-- Begin CartDrawer -->
   <div id="CartDrawer" class="drawer drawer--right">
     <div class="drawer__header">
       <div class="drawer__title h3">{{ 'cart.general.title' | t }}</div>
@@ -146,11 +157,17 @@
     </div>
     <div id="CartContainer"></div>
   </div>
+  <!-- End CartDrawer -->
+  
+  <!-- Begin PageContainer -->
   <div id="PageContainer" class="is-moved-by-drawer">
+
+    <!-- Begin Header -->
     <header class="site-header" role="banner">
       <div class="wrapper">
 
         <div class="grid--full grid--table">
+          <!-- Begin Logo -->
           <div class="grid__item large--one-half">
             {% comment %}
               Use the uploaded logo from theme settings if enabled.
@@ -174,6 +191,9 @@
               </div>
             {% endif %}
           </div>
+          <!-- End Logo -->
+          
+          <!-- Begin Right Side -->
           <div class="grid__item large--one-half large--text-right medium-down--hide">
             {% comment %}
               Show number of items in the cart and total cost in the /cart link
@@ -183,6 +203,8 @@
                 - #cartCost updates the total cost of the cart
                 - Documentation:  http://shopify.com/timber#ajax-cart
             {% endcomment %}
+            
+            <!-- Begin Cart Details -->
             <div>
               <a href="/cart" class="site-header__cart-toggle js-drawer-open-right" aria-controls="CartDrawer" aria-expanded="false">
                 <span class="icon icon-cart" aria-hidden="true"></span>
@@ -192,7 +214,9 @@
                 <span id="CartCost">{{ cart.total_price | money }}</span>)
               </a>
             </div>
-
+            <!-- End Cart Details -->
+            
+            <!-- Begin Customer Actions -->
             {% comment %}
               If customer accounts are enabled, provide login and create account links
             {% endcomment %}
@@ -214,16 +238,21 @@
                 {% endif %}
               </div>
             {% endif %}
-
+            <!-- End Customer Actions -->
+            
+            <!-- Begin Search Bar -->
             <div class="site-header__search">
               {% include 'search-bar' %}
             </div>
+            <!-- End Search Bar -->
           </div>
+          <!-- End Right Side -->
         </div>
-
       </div>
     </header>
-
+    <!-- End Header -->
+    
+    <!-- Begin nav-bar -->
     <nav class="nav-bar" role="navigation">
       <div class="wrapper">
         <div class="medium-down--hide">
@@ -290,17 +319,21 @@
         </div>
       </div>
     </nav>
-
+    <!-- End nav-bar -->
+    
+    <!-- Begin Layout Section -->
     <main class="wrapper main-content" role="main">
 
       {{ content_for_layout }}
 
     </main>
-
-    <!-- begin site-footer -->
+    <!-- End Layout Section -->
+    
+    <!-- Begin site-footer -->
     <footer class="site-footer small--text-center" role="contentinfo">
       <div class="wrapper">
         <div class="grid">
+          <!-- Begin Social -->
           {% if settings.footer_social_enable %}
             <div class="grid__item large--one-third medium--one-half">
               <h3>{{ 'layout.footer.social_title' | t }}</h3>
@@ -324,6 +357,9 @@
                 </ul>
             </div>
           {% endif %}
+          <!-- End Social -->
+          
+          <!-- Begin Newsletter -->
           {% if settings.footer_newsletter_enable %}
             <div class="grid__item large--one-third push--large--one-third medium--one-half">
               {% comment %}
@@ -348,6 +384,9 @@
               </form>
             </div>
           {% endif %}
+          <!-- End Newsletter -->
+          
+          <!-- Begin Payment Methods -->
           <div class="grid__item text-center">
             <hr>
             {% comment %}
@@ -369,12 +408,14 @@
             <a href="http://shopify.com/timber">Timber Theme Framework</a> by <a href="http://www.shopify.com?ref=Timber" title="Shopify.com">Shopify</a><br>
             <small>{{ powered_by_link }}</small>
           </div>
+          <!-- End Payment Methods -->
         </div>
       </div>
     </footer>
-    <!-- //site-footer -->
+    <!-- End site-footer -->
   </div>
-
+  <!-- End PageContainer -->
+  
   {{ 'fastclick.min.js' | asset_url | script_tag }}
   {{ 'timber.js' | asset_url | script_tag }}
 
