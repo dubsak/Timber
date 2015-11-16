@@ -8,18 +8,20 @@
 
 {% paginate collection.products by 12 %}
 
+<!-- Begin Breadcrumbs -->
 {% include 'breadcrumb' %}
+<!-- End Breadcrumbs -->
 
 {% comment %}
   Use .grid--rev so that the collection tags appear below the products on mobile
 {% endcomment %}
 <div class="grid--rev">
   <div class="grid__item large--three-quarters">
-
     {% comment %}
       Different markup if a collection description exists
     {% endcomment %}
     {% if collection.description != blank %}
+    <!-- Begin Header - Title and Description -->
       <header class="section-header">
         <h1 class="section-header__title">{{ collection.title }}</h1>
         <div class="rte rte--header">
@@ -32,13 +34,17 @@
           {% include 'collection-sorting' %}
         </div>
       </div>
+    <!-- End Header - Title and Description -->
     {% else %}
+    
+    <!-- Begin Header - Title -->
       <header class="section-header">
         <h1 class="section-header__title section-header__left">{{ collection.title }}</h1>
         <div class="section-header__right">
           {% include 'collection-sorting' %}
         </div>
       </header>
+    <!-- End Header - Title -->
     {% endif %}
 
     {% comment %}
@@ -51,6 +57,7 @@
         Loop through our products in the current collection.
         See the snippet 'product-grid-item' for the layout.
       {% endcomment %}
+      <!-- Begin Product Grid -->
       {% for product in collection.products %}
 
         {% include 'product-grid-item' %}
@@ -58,7 +65,7 @@
       {% else %}
 
         {% if collection.handle == 'all' and current_tags == '' %}
-
+        <!-- Begin Empty Collections -->
           {% comment %}
             Add default products to help with onboarding for collections/all only
           {% endcomment %}
@@ -67,34 +74,39 @@
             {% assign emptyState = true %}
           {% endunless %}
           {% include 'onboarding-empty-collection' %}
-
+        <!-- End Empty Collections -->
         {% else %}
-
+        <!-- Begin Collections exist but contains no products -->
           {% comment %}
             If collection exists but is empty, display message
           {% endcomment %}
           <div class="grid__item">
             <p>{{ 'collections.general.no_matches' | t }}</p>
           </div>
-
+        <!-- End Collections exist but contains no products -->
         {% endif %}
-
+        
+      <!-- End Product Grid -->
       {% endfor %}
 
     </div>
 
     {% if paginate.pages > 1 %}
+    <!-- Begin Pagination -->
       <hr>
       <div class="pagination">
         {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
       </div>
+    <!-- End Pagination -->
     {% endif %}
 
   </div>
-
+  
+  <!-- Begin Sidebar -->
   <div class="grid__item large--one-quarter">
     {% include 'collection-sidebar' %}
   </div>
+  <!-- End Sidebar -->
 </div>
 
 {% endpaginate %}
