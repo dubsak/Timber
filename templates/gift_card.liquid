@@ -35,7 +35,7 @@
 <body>
 
   <div class="wrapper">
-
+    <!-- Begin Header -->
     <header class="giftcard-header" role="banner">
       <div class="h1 header-logo" itemscope itemtype="http://schema.org/Organization">
         {% if settings.logo_use_image %}
@@ -48,6 +48,7 @@
       </div>
       <div class="shop-url">{{ shop.url }}</div>
     </header>
+    <!-- End Header -->
 
     <main class="giftcard" role="main">
       <div class="giftcard__border{% if gift_card.expired or gift_card.enabled != true %} disabled{% endif %}">
