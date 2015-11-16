@@ -8,19 +8,27 @@
 {% endcomment %}
 
 {% if cart.item_count > 0 %}
-
+  
+  <!-- Begin Cart -->
   <h1>{{ 'cart.general.title' | t }}</h1>
   <form action="/cart" method="post" novalidate class="cart table-wrap">
+    <!-- Begin Cart Table-->
     <table class="cart-table full table--responsive">
+      <!-- Begin Cart Headings -->
       <thead class="cart__row cart__header-labels">
         <th colspan="2" class="text-center">{{ 'cart.label.product' | t }}</th>
         <th class="text-center">{{ 'cart.label.price' | t }}</th>
         <th class="text-center">{{ 'cart.label.quantity' | t }}</th>
         <th class="text-right">{{ 'cart.label.total' | t }}</th>
       </thead>
+      <!-- End Cart Headings -->
+      
       <tbody>
+        
+        <!-- Begin Cart Item -->
         {% for item in cart.items %}
           <tr class="cart__row table__section">
+            <!-- Begin Item Image -->
             <td data-label="{{ 'customer.order.product' | t }}">
               <a href="{{ item.url | within: collections.all }}" class="cart__image">
                 {% comment %}
@@ -30,6 +38,9 @@
                 <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
               </a>
             </td>
+            <!-- End Item Image -->
+            
+            <!-- Begin Item Title/Item Variant/Vendor -->
             <td>
               <a href="{{ item.url }}" class="h4">
                 {{ item.product.title }}
@@ -68,35 +79,54 @@
                   {% endunless %}
                 {% endfor %}
               {% endif %}
-
+              
+              <!-- Begin Remove Button -->
               <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove">
                 <small>{{ 'cart.general.remove' | t }}</small>
               </a>
+              <!-- End Remove Button -->
             </td>
+            <!-- End Item Title/Item Variant/Vendor -->
+            
+            <!-- Begin Price -->
             <td data-label="{{ 'cart.label.price' | t }}">
               <span class="h3">
                 {{ item.price | money }}
               </span>
             </td>
+            <!-- End Price -->
+            
+            <!-- Begin Quantity -->
             <td data-label="{{ 'cart.label.quantity' | t }}">
               <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0">
             </td>
+            <!-- End Quantity -->
+            
+            <!-- Begin Line Total -->
             <td data-label="{{ 'cart.label.total' | t }}" class="text-right">
               <span class="h3">
                 {{ item.line_price | money }}
               </span>
             </td>
+            <!-- End Line Total -->
           </tr>
         {% endfor %}
+        <!-- End Cart Item -->
       </tbody>
     </table>
+    <!-- End Cart Table -->
+    
     <div class="grid cart__row">
+      <!-- Begin Cart Notes -->
       {% if settings.cart_notes_enable %}
         <div class="grid__item two-thirds small--one-whole">
           <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
           <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
         </div>
       {% endif %}
+      <!-- End Cart Notes -->
+      
+      <!-- Begin Cart Total -->
       <div class="grid__item text-right{% if settings.cart_notes_enable %} one-third small--one-whole{% endif %}">
         <p>
           <span class="cart__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
@@ -106,13 +136,18 @@
         <input type="submit" name="update" class="btn--secondary update-cart" value="{{ 'cart.general.update' | t }}">
         <input type="submit" name="checkout" class="btn" value="{{ 'cart.general.checkout' | t }}">
       </div>
+      <!-- End Cart Total -->
     </div>
   </form>
 {% else %}
+  <!-- Begin Empty Cart -->
   {% comment %}
     The cart is empty
   {% endcomment %}
   <h2>{{ 'cart.general.title' | t }}</h2>
   <p>{{ 'cart.general.empty' | t }}</p>
   <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+  <!-- End Empty Cart -->
+  
+  <!-- End Cart -->
 {% endif %}
