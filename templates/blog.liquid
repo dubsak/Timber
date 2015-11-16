@@ -8,7 +8,9 @@
 
 {% paginate blog.articles by 5 %}
 
+<!-- Begin Breadcrumbs -->
 {% include 'breadcrumb' %}
+<!-- End Breadcrumbs -->
 
 {% comment %}
   This template is also used for listing out articles of a specific tag.
@@ -17,12 +19,13 @@
 <div class="grid--rev">
 
   <div class="grid__item large--three-quarters">
-
+    <!-- Begin Tag Titles -->
     {% if current_tags %}
       <h1>{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}</h1>
     {% else %}
       <h1>{{ blog.title }}</h1>
     {% endif %}
+    <!-- End Tag Titles -->
 
     {% comment %}
       Loop through each article in your blog. This is limited to what you set for pagination above.
@@ -30,7 +33,8 @@
       For more info on article liquid tags:
         - http://docs.shopify.com/themes/liquid-variables/article
     {% endcomment %}
-
+    
+    <!-- Begin Article Listing -->
     {% for article in blog.articles %}
       <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
       {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
@@ -69,19 +73,23 @@
       {% unless forloop.last %}<hr>{% endunless %}
 
     {% endfor %}
-
+    <!-- End Article Listing -->
+    
+    <!-- Begin Pagination -->
     {% if paginate.pages > 1 %}
       <hr>
       <div class="pagination">
         {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
       </div>
     {% endif %}
-
+    <!-- End Pagination -->
   </div>
-
+  
+  <!-- Begin Sidebar -->
   <div class="grid__item large--one-quarter">
     {% include 'blog-sidebar' %}
   </div>
+  <!-- End Sidebar -->
 
 </div>
 
