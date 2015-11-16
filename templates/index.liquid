@@ -7,6 +7,7 @@
     - http://docs.shopify.com/themes/liquid-variables/global
 {% endcomment %}
 
+<!-- Begin Frontpage Collection -->
 <h2>{{ 'homepage.sections.frontpage_title' | t }}</h2>
 
 {% comment %}
@@ -45,9 +46,11 @@
   {% endfor %}
 
 </div>
+<!-- End Frontpage Collection -->
 
 <hr>
 
+<!-- Begin Five Collections -->
 <h2>{{ 'homepage.sections.featured_title' | t }}</h2>
 
 <div class="grid-uniform">
@@ -109,9 +112,11 @@
   {% endif %}
 
 </div>
+<!-- End Five Collections -->
 
 <hr>
 
+<!-- Begin Blog Posts -->
 {% comment %}
   Loop through three recent blog articles with the following code.
 
@@ -161,3 +166,4 @@
 
   {% endfor %}
 </div>
+<!-- End Blog Posts -->
